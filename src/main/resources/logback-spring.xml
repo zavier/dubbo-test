@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration debug="false">
+    <contextName>dubbo-test</contextName>
+
+    <property name="LOG_CHARSET" value="UTF-8"/>
+    <property name="LOG_ROOT" value="logs"/>
+    <property name="LOG_PATTERN" value="[%d{'MM-dd HH:mm:ss,SSS',GMT+8:00}] %highlight(%-5level) | %contextName | %boldYellow(%X{traceId}) | %t | %boldGreen(%logger{60}[%L]) | %X{dubboContextEnv} | %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>${LOG_CHARSET}</charset>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/common.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ROOT}/common.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>${LOG_CHARSET}</charset>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT}/error.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_ROOT}/error.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>

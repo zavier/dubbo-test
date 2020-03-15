@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">主机</th>
+            <th scope="col">端口</th>
+            <!--<th scope="col">服务</th>-->
+            <!--<th scope="col">版本</th>-->
+            <th scope="col">ID</th>
+            <th scope="col">ServiceKey</th>
+            <!--<th scope="col">操作</th>-->
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            </div>
+            <div class="modal-body">
+                <select id="methods">
+                </select>
+                <textarea></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"
+        integrity="sha384-L2pyEeut/H3mtgCBaUNw7KWzp5n9+4pDQiExs933/5QfaTh8YStYFFkOzSoXjlTb"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+<script>
+    $( document ).ready(function() {
+        $.get('/api/services', function (result) {
+            html = ''
+            if (result) {
+                for (var i = 0; i < result.length; i++) {
+                    html += '<tr>'
+                        + '<td>' + result[i].ip + '</td>'
+                        + '<td>' + result[i].port + '</td>'
+                        + '<td style="display: none;">' + result[i].serviceInterface + '</td>'
+                        + '<td style="display: none">' + result[i].version + '</td>'
+                        + '<td>' + result[i].id + '</td>'
+                        + '<td>' + result[i].serviceKey + '</td>'
+                        // + '<td><button class=\'button\' id=\'test\' data-provider=\'' + JSON.stringify(result[i]) + '\'>测试</button></td>'
+                        + '</tr>';
+                }
+            }
+            $("#tbody").html(html);
+        })
+    })
+
+    $(document).on('click', '#test', function () {
+        var provider = $("#test").data('provider');
+        $("#methods").empty();
+        var methods = provider.methods;
+        var html = '';
+        for (var i = 0; i < methods.length; i++) {
+            html += '<option value="' + methods[i] + '">' + methods[i] + '</option>';
+        }
+        $("#methods").html(html);
+        $('#exampleModal').modal('toggle')
+    })
+</script>
+</body>
+</html>
