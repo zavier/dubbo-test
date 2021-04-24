@@ -4,7 +4,7 @@
 
 ![dubbo-test](./doc/dubbo-test.jpg)
 
-因为定位为一个工具，所以尽量不引入外部依赖，如 apollo, mysql, redis等，可以做到独立启动
+因为定位为一个工具，所以尽量不引入外部依赖，如 mysql, redis等，可以做到独立启动
 
 ## 说明
 dubbo 接口测试功能（部分代码来自dubbo-admin），主要用来支持 < 2.7 版本, 2.7版本可以使用新版dubbo-admin
